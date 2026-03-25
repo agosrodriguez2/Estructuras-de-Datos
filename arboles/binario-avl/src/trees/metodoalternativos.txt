@@ -1,0 +1,47 @@
+  private Node removeRec1(Node nodo, T x){
+    if(nodo == null){
+        return null; // caso: no encontrado
+    }
+
+    int cmp = x.compareTo(nodo.value);
+
+    if(cmp < 0){
+        nodo.left = removeRec(nodo.left, x);
+    } 
+    else if(cmp > 0){
+        nodo.rigth = removeRec(nodo.rigth, x);
+    } 
+    else {
+
+        size--;
+
+        // caso 1 y 2: 0 o 1 hijo
+        if(nodo.left == null){
+            return nodo.rigth;
+        }
+        if(nodo.rigth == null){
+            return nodo.left;
+        }
+
+        // caso 3: dos hijos
+        Node min = minSubarbolDer(nodo.rigth);
+        nodo.value = min.value;
+        nodo.rigth = removeRec(nodo.rigth, min.value);
+    }
+
+    return nodo; 
+}
+
+public T min(){
+    if(root == null){
+        throw new NoSuchElementException();
+    }
+
+    Node actual = root;
+
+    while(actual.left != null){
+        actual = actual.left;
+    }
+
+    return actual.value;
+}
